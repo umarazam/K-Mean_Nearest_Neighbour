@@ -36,7 +36,7 @@ def k_mean(l1, k):
             data = l1
         for a in (data):
             d = sqrt((a[0]-centroid1) **2 + (a[1]-centroid2)**2)
-            t1 = (a[0], a[1], 0)
+            t1 = (a[0], a[1], a[2])
             if d < centroid1:
                 cluster1.append(t1)
             else:
@@ -45,32 +45,42 @@ def k_mean(l1, k):
 
 def K_MeanNearestDistance(cluster, value):
     d=0
+    temp =-1
     for a in cluster:  
         d = sqrt((a[0]-value[0]) **2 + (a[1]-value[1])**2)
-        d += d
-    return d/len(cluster)
-def assignLabel(d1,d2):
+		if temp < d:
+			temp = d
+
+    return temp
+
+def clusterIdentification(d1,d2):
     if d1 < d2:
         return 0
     else:
         return 1
+
+def assignLabel(cluster1, cluster2, cluster_No):
+    if cluster_No == 1:
+	    cluster1[0][3]
+	else:
+	    cluster2[0][3]
+
 # 0 --> Bad
 # 1 --> Good
 def main():
     l1 = [(7,7,0),(7,4,0),(3,4,1), (1,4,1)]
     cluster1, cluster2 = k_mean(l1,2)
-    print(cluster1)
+    print('Cluster1: \n ',cluster1)
     print('--------')
-    print(cluster2)                            
+    print('CLuster2: \n ', cluster2)                            
     a = int(input(('Enter Acid Durabilty: ')))
     b = int(input(('Enter Acid Strength: ')))
-    check_Value = [(a,b)]
+    check_Value = (a,b)
     d1 = K_MeanNearestDistance(cluster1, check_Value)
     d2 = K_MeanNearestDistance(cluster2, check_Value)
-    label = assignLabel(d1,d2)
+    cluster_No = clusterIdentification(d1,d2)
+	label = assignLabel(cluster1, cluster2, cluster_No)
     print(f'Label for:{check_Value} --> {label}')
-    
-    
     
 if __name__ == '__main__':
     main();
